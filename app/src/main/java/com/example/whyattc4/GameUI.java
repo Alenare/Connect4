@@ -2,6 +2,8 @@ package com.example.whyattc4;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.graphics.Point;  //holds 2 coordinates provides methods to use points on a screen
 import android.view.View;
@@ -17,6 +19,7 @@ public class GameUI extends AppCompatActivity {
     private Button[][] buttons;
     private TextView status;
     private C4Game  instance;
+    private int topRow = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +85,9 @@ public class GameUI extends AppCompatActivity {
     }
     public void update(int row, int col) {
         int play = instance.play(row,col);
+
+        SimulateMovement(row, col);
+
         if(play == 1){
             buttons[row][col].setText("O");
             buttons[row][col].setTextColor(Color.parseColor("#FF0000"));
@@ -98,6 +104,32 @@ public class GameUI extends AppCompatActivity {
             status.setText(instance.result());
             showNewGameDialog();
         }
+    }
+
+    public void SimulateMovement(int row, int col){
+            final Handler handler = new Handler(Looper.getMainLooper());
+            int rPos = 5;
+            int play = instance.play(row,col);
+             while (rPos > row) {
+                 handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        int rPos = row;
+                        if(play == 1){
+                            buttons[rPos][col].setText("O");
+                            buttons[rPos][col].setTextColor(Color.parseColor("#FF0000"));
+                        }else if(play == 2){
+                            buttons[rPos][col].setText("O");
+                            buttons[rPos][col].setTextColor(Color.parseColor("#FFFF00"));
+                        }else if(play == 3){
+                            buttons[rPos][col].setText("O");
+                            buttons[rPos][col].setTextColor(Color.parseColor("#FFFF00"));
+                        }
+                    }
+                }, 10000);
+                rPos--;
+            }
+
     }
     public void enableButtons(boolean enabled){
         for(int row = 0; row < instance.ROW; row++){
