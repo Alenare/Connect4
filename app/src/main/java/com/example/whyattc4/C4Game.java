@@ -16,6 +16,7 @@ public class C4Game {
         if( row >= 0 && col >= 0 && row < ROW && col < COLUMN
                 && game[row][col] == 0 ) {
             game[row][col] = turn;
+
             if( turn == 1 )
                 turn = 2;
             else
@@ -47,17 +48,98 @@ public class C4Game {
     }
 
     protected int checkRows( ) {
+        int r = 5;
+        int c = 0;
 
+        while(r > -1){
+            while(c < 4){
+                if(game[r][c] != 0){
+                    if (game[r][c] == game[r][c + 1] && game[r][c] == game[r][c + 2] && game[r][c] == game[r][c+3]) {
+                        return game[r][c];
+                    }
+                }
+                c++;
+            }
+            r--;
+            c = 0;
+        }
         return 0;
     }
 
     protected int checkColumns( ) {
+        int r = 5;
+        int c = 0;
 
-
+        while(c < COLUMN){
+            while(r > 2){
+                if(game[r][c] != 0){
+                    if (game[r][c] == game[r-1][c] && game[r][c] == game[r - 2][c] && game[r][c] == game[r - 3][c]) {
+                        return game[r][c];
+                    }
+                }
+                r--;
+            }
+            c++;
+            r = 5;
+        }
         return 0;
     }
 
     protected int checkDiagonals( ) {
+        int r = 5;
+        int c = 0;
+        int inC = 0;
+
+        while (c < COLUMN){
+            inC = c;
+            if (inC == 0 || inC == 1 || inC == 2) {
+                while(r > 2){
+                    if(game[r][inC] != 0){
+                        if (game[r][inC] == game[r - 1][inC + 1] && game[r][inC] == game[r - 2][inC + 2] && game[r][inC] == game[r - 3][inC + 3]) {
+                            return game[r][inC];
+                        }
+                    }
+                    r--;
+                }
+            }
+
+            if (inC == 4|| inC == 5 || inC == 6) {
+                while(r > 2){
+                    if(game[r][inC] != 0){
+                        if (game[r][inC] == game[r - 1][inC - 1] && game[r][inC] == game[r - 2][inC - 2] && game[r][inC] == game[r - 3][inC - 3]) {
+                            return game[r][inC];
+                        }
+                    }
+                    r--;
+                }
+            }
+
+            if (inC == 3) {
+
+                while(r > 2){
+                    if(game[r][inC] != 0){
+                        if (game[r][inC] == game[r - 1][inC - 1] && game[r][inC] == game[r - 2][inC - 2] && game[r][inC] == game[r - 3][inC - 3]) {
+                            return game[r][inC];
+                        }
+                    }
+                    r--;
+                }
+
+                r = 5;
+
+                while(r > 2){
+                    if(game[r][inC] != 0){
+                        if (game[r][inC] == game[r - 1][inC + 1] && game[r][inC] == game[r - 2][inC + 2] && game[r][inC] == game[r - 3][inC + 3]) {
+                            return game[r][inC];
+                        }
+                    }
+                    r--;
+                }
+
+            }
+            c++;
+            r = 5;
+        }
 
         return 0;
     }
@@ -89,10 +171,4 @@ public class C4Game {
         return canNotPlay( ) || ( whoWon( ) > 0 );
     }
 
-    public void resetGame( ) {
-        for (int row = 0; row < ROW; row++)
-            for( int col = 0; col < COLUMN; col++ )
-                game[row][col] = 0;
-        turn = 1;
-    }
 }

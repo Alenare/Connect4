@@ -43,7 +43,6 @@
             android:layout_marginLeft = "130dp"
             android:layout_marginBottom="40dp"
             android:layout_below="@+id/the2P"
-            android:onClick="changeScreen"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
             android:text="Computer" />

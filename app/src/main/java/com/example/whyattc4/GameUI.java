@@ -44,6 +44,11 @@ public class GameUI extends AppCompatActivity {
                 buttons[row][col]= new Button(this);
                 buttons[row][col].setTextSize((int)(w*.2));
                 buttons[row][col].setOnClickListener(bh);
+                if(row != 5){
+                    buttons[row][col].setEnabled(false);
+                }else{
+                    buttons[row][col].setEnabled(true);
+                }
                 gridLayout.addView(buttons[row][col],w,w);
             }
         }
@@ -92,17 +97,36 @@ public class GameUI extends AppCompatActivity {
             buttons[row][col].setText("O");
             buttons[row][col].setTextColor(Color.parseColor("#FFFF00"));
         }
-        if(instance.isGameOver()){
+        if(instance.isGameOver()) {
             status.setBackgroundColor(Color.RED);
             enableButtons(false);
             status.setText(instance.result());
             showNewGameDialog();
-        }
+        }else{
+            EnableNextButton();
+        };
     }
+
+    public void EnableNextButton(){
+
+        for(int row = 0; row < instance.ROW; row++){
+            for(int col = 0; col < instance.COLUMN; col++){
+                if((row != 5) && (buttons[row + 1][col].getText().toString() != "")){
+                    buttons[row][col].setEnabled(true);
+                }
+            }
+        }
+         return ;
+    }
+
     public void enableButtons(boolean enabled){
         for(int row = 0; row < instance.ROW; row++){
             for(int col = 0; col < instance.COLUMN; col++){
-                buttons[row][col].setEnabled(enabled);
+                if(row != 5){
+                    buttons[row][col].setEnabled(false);
+                }else {
+                    buttons[row][col].setEnabled(true);
+                }
             }
         }
     }
@@ -119,7 +143,7 @@ public class GameUI extends AppCompatActivity {
     private class PlayDialog implements DialogInterface.OnClickListener{
         public void onClick(DialogInterface dialog, int id){
             if(id == -1){ //yes button
-                instance.resetGame();
+                instance.ResetGame();
                 enableButtons(true);
                 resetButtons();
                 status.setBackgroundColor(Color.GREEN);
